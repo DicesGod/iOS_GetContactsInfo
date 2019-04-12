@@ -1,14 +1,17 @@
-
-
+import MessageUI
 import UIKit
 
 class ContactTableViewCell: UITableViewCell {
-
     @IBOutlet weak var contactName: UILabel!
     
     @IBOutlet weak var phoneNumber: UILabel!
     
     @IBOutlet weak var email: UILabel!
+    
+    
+    @IBAction func sendEmail(_ sender: UIButton) {
+        currentInstanceofContactTableViewController!.displayMessageUI()
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -22,3 +25,6 @@ class ContactTableViewCell: UITableViewCell {
     }
 
 }
+
+
+

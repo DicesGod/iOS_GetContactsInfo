@@ -1,30 +1,29 @@
-
+import MessageUI
 import UIKit
 import Contacts
+import CoreData
 
+weak var currentInstanceofContactTableViewController = ContactTableViewController()
 let appDelegate = UIApplication.shared.delegate as? AppDelegate
 
-class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-
-    
-    
+class ContactTableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     @IBOutlet weak var ContactTableView: UITableView!
     
     
+    @IBAction func Search(_ sender: Any) {
+        displayMessageUI()
+    }
     var contactsList = [Contact]()
-    
+    //let [ContactTableViewController ]instanceofContactTableViewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
        // contacts = fetchContacts() as! [Contact]
-        
+        //fetchContacts()
         ContactTableView.delegate = self
-        //ContactTableView.dataSource = fetchContacts() as? UITableViewDataSource
-        //contactsList.append(Contact(name: "minh",phonenumber: "000",email: "gmail.com"))
-        
-       // fetchContacts()
-        
+        ContactTableView.dataSource = self
+        currentInstanceofContactTableViewController = self
     }
     
     override func viewWillAppear(_ animate: Bool){
@@ -32,8 +31,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         print(contactsList)
         ContactTableView.reloadData()
     }
-
-    
     
     func  fetchContacts(){
         fetchContacts(){
@@ -69,13 +66,13 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         return cell
     }
     
-        func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-            return true
-        }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
     
-        func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-            return .none
-        }
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .none
+    }
     
     func fetchContacts(completion: @escaping (_ done: Bool) -> ()) {
         let store = CNContactStore()
@@ -96,14 +93,14 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 do{
                     try store.enumerateContacts(with: request, usingBlock: { (contact, stopPointerIfYouWantToStopEnumerating) in
                         
-                          let contact  = Contact(name: contact.givenName+" "+contact.familyName,
-                                               phonenumber: contact.phoneNumbers.first?.value.stringValue ?? "",
-                                               email: contact.emailAddresses.first?.value as! String ?? "" as String)
+          let contact  = Contact(name: contact.givenName+" "+contact.familyName,
+                                 phonenumber: contact.phoneNumbers.first?.value.stringValue ?? "",
+                                 email: contact.emailAddresses.first?.value as? String ?? "" as String)
                         
                         self.contactsList.append(contact)
                         
-                        print(self.contactsList)
-                        stopPointerIfYouWantToStopEnumerating.pointee = true
+                        //print(self.contactsList)
+                        //stopPointerIfYouWantToStopEnumerating.pointee = true
                         completion(true)
                     })
                     
@@ -122,4 +119,37 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
     }
 }
+
+extension ContactTableViewController: MFMessageComposeViewControllerDelegate{
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        switch (result) {
+        case .cancelled:
+            print("Message was cancelled")
+            dismiss(animated: true, completion: nil)
+        case .failed:
+            print("Message failed")
+            dismiss(animated: true, completion: nil)
+        case .sent:
+            print("Message was sent")
+            dismiss(animated: true, completion: nil)
+        default:
+            break
+        }
+    }
+    
+    func displayMessageUI(){
+        let messageVC = MFMessageComposeViewController()
+        
+        messageVC.body = "My friend! Our class have a very cool app! Give it a try ;)";
+        messageVC.recipients = [contactsList[0].name]
+        messageVC.messageComposeDelegate = self
+        if MFMessageComposeViewController.canSendText() {
+            present(messageVC, animated: true, completion: nil)
+        }
+        else {
+            print("Can't send messages.")
+        }
+    }
+}
+
 
