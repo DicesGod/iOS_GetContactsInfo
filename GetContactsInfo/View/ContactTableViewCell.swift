@@ -1,6 +1,8 @@
 import MessageUI
 import UIKit
 
+
+
 class ContactTableViewCell: UITableViewCell {
     @IBOutlet weak var contactName: UILabel!
     
@@ -9,9 +11,9 @@ class ContactTableViewCell: UITableViewCell {
     @IBOutlet weak var email: UILabel!
     
     
-    @IBAction func sendEmail(_ sender: UIButton) {
-        currentInstanceofContactTableViewController!.displayMessageUI()
-    }
+    
+    @IBOutlet weak var btnCheck: UIImageView!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -19,10 +21,20 @@ class ContactTableViewCell: UITableViewCell {
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        if (selected == true){
+        super.setSelected(true, animated: animated)
+            btnCheck.image = UIImage(named: "check")
+            
+        }
+        else{
+            super.setSelected(false, animated: animated)
+            btnCheck.image = UIImage(named: "empty")
+            backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        }
+        
+        
     }
+        
 
 }
 

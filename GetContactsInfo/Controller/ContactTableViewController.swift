@@ -5,14 +5,19 @@ import CoreData
 
 weak var currentInstanceofContactTableViewController = ContactTableViewController()
 let appDelegate = UIApplication.shared.delegate as? AppDelegate
+var cellIndex = IndexPath()
 
 class ContactTableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     @IBOutlet weak var ContactTableView: UITableView!
     
     
+    
+    @IBAction func sendMessage(_ sender: Any) {
+        displayMessageUI(index: cellIndex)
+    }
     @IBAction func Search(_ sender: Any) {
-        displayMessageUI()
+        
     }
     var contactsList = [Contact]()
     //let [ContactTableViewController ]instanceofContactTableViewController
@@ -20,17 +25,17 @@ class ContactTableViewController: UIViewController,UITableViewDelegate,UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
        // contacts = fetchContacts() as! [Contact]
-        //fetchContacts()
+        fetchContacts()
         ContactTableView.delegate = self
         ContactTableView.dataSource = self
         currentInstanceofContactTableViewController = self
     }
     
-    override func viewWillAppear(_ animate: Bool){
-        fetchContacts()
-        print(contactsList)
-        ContactTableView.reloadData()
-    }
+//    override func viewWillAppear(_ animate: Bool){
+//        fetchContacts()
+//        print(contactsList)
+//        ContactTableView.reloadData()
+//    }
     
     func  fetchContacts(){
         fetchContacts(){
@@ -53,6 +58,10 @@ class ContactTableViewController: UIViewController,UITableViewDelegate,UITableVi
     
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return contactsList.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+        return cellIndex = indexPath
     }
     
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -137,11 +146,12 @@ extension ContactTableViewController: MFMessageComposeViewControllerDelegate{
         }
     }
     
-    func displayMessageUI(){
+    func displayMessageUI(index: IndexPath){
         let messageVC = MFMessageComposeViewController()
         
         messageVC.body = "My friend! Our class have a very cool app! Give it a try ;)";
-        messageVC.recipients = [contactsList[0].name]
+        messageVC.recipients = [contactsList[index.row].name]
+        //messageVC.recipients = ["minh"]
         messageVC.messageComposeDelegate = self
         if MFMessageComposeViewController.canSendText() {
             present(messageVC, animated: true, completion: nil)

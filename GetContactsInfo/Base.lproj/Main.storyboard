@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sMO-dE-QOW">
-                                <rect key="frame" x="0.0" y="124" width="375" height="654"/>
+                                <rect key="frame" x="0.0" y="164" width="375" height="614"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactTableViewCell" id="X1L-6T-U4d" customClass="ContactTableViewCell" customModule="GetContactsInfo" customModuleProvider="target">
@@ -31,35 +31,33 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kc8-I2-1eQ" userLabel="contactName">
                                                     <rect key="frame" x="9" y="0.0" width="170" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Djj-dQ-Ak2" userLabel="phoneNumber">
                                                     <rect key="frame" x="9" y="22" width="135" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a6v-5t-umJ" userLabel="email">
                                                     <rect key="frame" x="164" y="22" width="171" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJ6-E7-VJf">
-                                                    <rect key="frame" x="314" y="0.0" width="61" height="44"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="empty" translatesAutoresizingMaskIntoConstraints="NO" id="sTk-mH-MkU">
+                                                    <rect key="frame" x="338" y="11" width="32" height="29"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="Invite"/>
-                                                    <connections>
-                                                        <action selector="sendEmail:" destination="X1L-6T-U4d" eventType="touchUpInside" id="txL-5v-NyW"/>
-                                                    </connections>
-                                                </button>
+                                                    <accessibility key="accessibilityConfiguration" label="radiobutton"/>
+                                                </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="btnCheck" destination="sTk-mH-MkU" id="0wD-Ct-0cZ"/>
                                             <outlet property="contactName" destination="kc8-I2-1eQ" id="ufC-IW-AiQ"/>
                                             <outlet property="email" destination="a6v-5t-umJ" id="13A-5s-Lz0"/>
                                             <outlet property="phoneNumber" destination="Djj-dQ-Ak2" id="jsz-p7-Eez"/>
@@ -75,24 +73,33 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Search" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oyK-qI-Xdx">
-                                <rect key="frame" x="10" y="67" width="54" height="21"/>
+                                <rect key="frame" x="10" y="67" width="57" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t4h-9Z-bbx">
-                                <rect key="frame" x="340" y="62" width="35" height="30"/>
+                                <rect key="frame" x="344" y="66" width="26" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button" image="search"/>
                                 <connections>
                                     <action selector="Search:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yFh-nj-dm1"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dLD-Dm-DWr">
+                                <rect key="frame" x="313" y="96" width="57" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Send"/>
+                                <connections>
+                                    <action selector="sendMessage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Nz0-4z-tLb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="sMO-dE-QOW" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="80" id="36y-W2-Vh4"/>
+                            <constraint firstItem="sMO-dE-QOW" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="120" id="36y-W2-Vh4"/>
                             <constraint firstItem="sMO-dE-QOW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="dxf-MA-xd1"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="sMO-dE-QOW" secondAttribute="bottom" id="lbS-Vm-x0m"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="sMO-dE-QOW" secondAttribute="trailing" id="yM4-KI-ZOc"/>
@@ -109,6 +116,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="empty" width="225" height="225"/>
         <image name="search" width="225" height="225"/>
     </resources>
 </document>
