@@ -22,6 +22,7 @@ class ContactTableViewController: UIViewController,UITableViewDelegate,UITableVi
     var contactsList = [Contact]()
     //let [ContactTableViewController ]instanceofContactTableViewController
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
        // contacts = fetchContacts() as! [Contact]
@@ -159,6 +160,25 @@ extension ContactTableViewController: MFMessageComposeViewControllerDelegate{
         else {
             print("Can't send messages.")
         }
+    }
+    
+    // variable to store text typed by user in search box
+//    var searchText: String = ""
+//    @IBAction func Search(_ sender: Any) {
+//        // getting value from search box
+//        searchText = searchBoxText.text!
+//        searchContacts()
+//    }
+    
+    func searchContacts() -> [Contact]{
+        
+        var retSearchedContacts = [Contact]() // new array that will contain the searched result
+        for contact in contactsList{
+            if contact.name.lowercased().contains(searchText.lowercased()){
+                retSearchedContacts.append(contact)
+            }
+        }
+        return retSearchedContacts
     }
 }
 
