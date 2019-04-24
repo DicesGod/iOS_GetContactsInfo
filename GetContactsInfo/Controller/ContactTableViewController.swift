@@ -11,38 +11,59 @@ class ContactTableViewController: UIViewController,UITableViewDelegate,UITableVi
     
     @IBOutlet weak var ContactTableView: UITableView!
     
+    @IBOutlet weak var searchText: UITextField!
     
+    var contactsListFull = [Contact]()
+    var seachedcontactsList = [Contact]()
     
-    @IBAction func sendMessage(_ sender: Any) {
-        displayMessageUI(index: cellIndex)
-    }
-    @IBAction func Search(_ sender: Any) {
+   
+    @IBAction func searchContacts(_ sender: UITextField) {
+            seachedcontactsList.removeAll()
+            seachedcontactsList = searchContacts(searchText: searchText.text ?? "",contactsList: contactsListFull)
+            ContactTableView.reloadData()
         
     }
-    var contactsList = [Contact]()
-    //let [ContactTableViewController ]instanceofContactTableViewController
     
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-       // contacts = fetchContacts() as! [Contact]
-        fetchContacts()
+    override func viewWillAppear(_ animated: Bool) {
         ContactTableView.delegate = self
         ContactTableView.dataSource = self
         currentInstanceofContactTableViewController = self
     }
     
-//    override func viewWillAppear(_ animate: Bool){
-//        fetchContacts()
-//        print(contactsList)
-//        ContactTableView.reloadData()
-//    }
+    func searchContacts(searchText: String, contactsList: [Contact]) -> [Contact]{
+        if (searchText == ""){
+            return contactsListFull
+        }
+        else{
+            var searchedcontactsListFull = [Contact]() // new array that will contain the searched result
+            for contact in contactsListFull{
+                if contact.name.lowercased().contains(searchText.lowercased()){
+                    searchedcontactsListFull.append(contact)
+                }
+            }
+            return searchedcontactsListFull
+        }
+    }
+    
+    @IBAction func sendMessage(_ sender: Any) {
+        displayMessageUI(index: cellIndex)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+       // contacts = fetchContacts() as! [Contact]
+        fetchContacts()
+        seachedcontactsList = contactsListFull
+        ContactTableView.delegate = self
+        ContactTableView.dataSource = self
+        currentInstanceofContactTableViewController = self
+    }
     
     func  fetchContacts(){
         fetchContacts(){
             (done) in
             if done{
-                if self.contactsList.count > 0 {
+                if self.contactsListFull.count > 0 {
                     print("Data loaded! xD")
                     
                 }
@@ -58,7 +79,7 @@ class ContactTableViewController: UIViewController,UITableViewDelegate,UITableVi
     }
     
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contactsList.count
+        return seachedcontactsList.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
@@ -67,9 +88,8 @@ class ContactTableViewController: UIViewController,UITableViewDelegate,UITableVi
     
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "ContactTableViewCell"
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ContactTableViewCell
-        let contact = contactsList[indexPath.row]
+        let contact = seachedcontactsList[indexPath.row]
         cell.contactName.text = contact.name
         cell.phoneNumber.text = contact.phonenumber
         cell.email.text = contact.email
@@ -86,8 +106,7 @@ class ContactTableViewController: UIViewController,UITableViewDelegate,UITableVi
     
     func fetchContacts(completion: @escaping (_ done: Bool) -> ()) {
         let store = CNContactStore()
-        //var contactsList: [Contact] = []
-        
+
         store.requestAccess(for: .contacts) { (granted, err) in
             if let err = err{
                 print("Fail to request access:",err)
@@ -107,20 +126,15 @@ class ContactTableViewController: UIViewController,UITableViewDelegate,UITableVi
                                  phonenumber: contact.phoneNumbers.first?.value.stringValue ?? "",
                                  email: contact.emailAddresses.first?.value as? String ?? "" as String)
                         
-                        self.contactsList.append(contact)
-                        
-                        //print(self.contactsList)
+                        self.contactsListFull.append(contact)
+                        //print(self.contactsListFull)
                         //stopPointerIfYouWantToStopEnumerating.pointee = true
                         completion(true)
                     })
-                    
-                    
                 }catch let err{
                     print("Failed to enumerate contact:",err)
                     completion(false)
                 }
-                
-              
             }
             else{
                 print("access denied")
@@ -130,6 +144,7 @@ class ContactTableViewController: UIViewController,UITableViewDelegate,UITableVi
     }
 }
 
+//Send massage
 extension ContactTableViewController: MFMessageComposeViewControllerDelegate{
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         switch (result) {
@@ -151,7 +166,7 @@ extension ContactTableViewController: MFMessageComposeViewControllerDelegate{
         let messageVC = MFMessageComposeViewController()
         
         messageVC.body = "My friend! Our class have a very cool app! Give it a try ;)";
-        messageVC.recipients = [contactsList[index.row].name]
+        messageVC.recipients = [contactsListFull[index.row].name]
         //messageVC.recipients = ["minh"]
         messageVC.messageComposeDelegate = self
         if MFMessageComposeViewController.canSendText() {
@@ -160,25 +175,6 @@ extension ContactTableViewController: MFMessageComposeViewControllerDelegate{
         else {
             print("Can't send messages.")
         }
-    }
-    
-    // variable to store text typed by user in search box
-//    var searchText: String = ""
-//    @IBAction func Search(_ sender: Any) {
-//        // getting value from search box
-//        searchText = searchBoxText.text!
-//        searchContacts()
-//    }
-    
-    func searchContacts() -> [Contact]{
-        
-        var retSearchedContacts = [Contact]() // new array that will contain the searched result
-        for contact in contactsList{
-            if contact.name.lowercased().contains(searchText.lowercased()){
-                retSearchedContacts.append(contact)
-            }
-        }
-        return retSearchedContacts
     }
 }
 

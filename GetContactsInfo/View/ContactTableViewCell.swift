@@ -1,8 +1,6 @@
 import MessageUI
 import UIKit
 
-
-
 class ContactTableViewCell: UITableViewCell {
     @IBOutlet weak var contactName: UILabel!
     
@@ -10,10 +8,7 @@ class ContactTableViewCell: UITableViewCell {
     
     @IBOutlet weak var email: UILabel!
     
-    
-    
     @IBOutlet weak var btnCheck: UIImageView!
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
