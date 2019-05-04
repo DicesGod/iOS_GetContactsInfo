@@ -16,7 +16,10 @@ class ContactTableViewController: UIViewController,UITableViewDelegate,UITableVi
     var contactsListFull = [Contact]()
     var seachedcontactsList = [Contact]()
     
-   
+    @IBAction func MenuTapped(_ sender: UIBarButtonItem) {
+        NotificationCenter.default.post(name: NSNotification.Name("ToggleSideMenu"), object: nil)
+    }
+    
     @IBAction func searchContacts(_ sender: UITextField) {
             seachedcontactsList.removeAll()
             seachedcontactsList = searchContacts(searchText: searchText.text ?? "",contactsList: contactsListFull)
@@ -57,7 +60,18 @@ class ContactTableViewController: UIViewController,UITableViewDelegate,UITableVi
         ContactTableView.delegate = self
         ContactTableView.dataSource = self
         currentInstanceofContactTableViewController = self
+        
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(showDepartment),
+                                               name: NSNotification.Name("ShowDepartment"),
+                                               object: nil)
     }
+    
+    @objc func showDepartment() {
+        performSegue(withIdentifier: "ShowDepartment", sender: nil)
+    }
+    
     
     func  fetchContacts(){
         fetchContacts(){
